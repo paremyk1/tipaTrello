@@ -29,7 +29,6 @@
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^2.5.2",
     "zustand": "^4.5.4",
-    "zustand-middleware": "^1.3.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
