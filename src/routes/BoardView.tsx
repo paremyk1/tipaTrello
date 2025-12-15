@@ -7,7 +7,7 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useMemo, useState } from 'react';
 import { useBoardStore, selectBoard, selectListsForBoard, selectCards } from '../store/useBoardStore';
 import { ListColumn } from '../views/ListColumn';
@@ -26,7 +26,7 @@ export const BoardView: React.FC = () => {
 
   const sensors = useSensors(useSensor(PointerSensor));
 
-  if (!board) return null;
+  if (!board) return <Navigate to="/boards" replace />;
 
   const handleListDrag = (event: DragEndEvent) => {
     const { active, over } = event;
