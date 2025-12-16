@@ -14,21 +14,39 @@
   <body class="bg-slate-900">
     <div id="root">Loading Trello Premium clone…</div>
     <script type="module">
-      import('/src/main.tsx').catch((err) => {
-        const root = document.getElementById('root');
-        if (!root) return;
-        root.innerHTML = `
-          <div style="font-family: Inter, system-ui, -apple-system, sans-serif; color: #e2e8f0; background:#0f172a; height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px;">
-            <div style="max-width: 520px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.35);">
-              <h1 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Чтобы увидеть интерфейс, запустите проект через Vite dev server</h1>
-              <p style="margin: 0 0 12px; color: rgba(226,232,240,0.8); font-size: 14px;">Просто открыть index.html из файловой системы недостаточно — браузеру нужен сборщик, который обрабатывает TypeScript/React.</p>
-              <pre style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; text-align: left; font-size: 13px; overflow-x: auto;">deno task dev</pre>
-              <p style="margin: 12px 0 0; color: rgba(226,232,240,0.7); font-size: 13px;">После запуска откройте ссылку из терминала (обычно <code>http://localhost:5173</code>).</p>
+      const root = document.getElementById('root');
+
+      // Opening directly from the file system cannot resolve the Vite/React bundle.
+      if (location.protocol === 'file:') {
+        if (root) {
+          root.innerHTML = `
+            <div style="font-family: Inter, system-ui, -apple-system, sans-serif; color: #e2e8f0; background:#0f172a; height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px;">
+              <div style="max-width: 560px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.35);">
+                <h1 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Запустите локальный сервер, чтобы увидеть интерфейс</h1>
+                <p style="margin: 0 0 12px; color: rgba(226,232,240,0.8); font-size: 14px;">Просто открыть <code>index.html</code> из файловой системы недостаточно — браузеру нужен бандл, который собирает TypeScript/React.</p>
+                <pre style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; text-align: left; font-size: 13px; overflow-x: auto;">deno task dev
+deno task preview</pre>
+                <p style="margin: 12px 0 0; color: rgba(226,232,240,0.7); font-size: 13px;">После запуска откройте ссылку из терминала (обычно <code>http://localhost:5173</code>).</p>
+              </div>
             </div>
-          </div>
-        `;
-        console.error('Vite/React bundle could not be loaded. Run the dev server.', err);
-      });
+          `;
+        }
+      } else {
+        import('/src/main.tsx').catch((err) => {
+          if (!root) return;
+          root.innerHTML = `
+            <div style="font-family: Inter, system-ui, -apple-system, sans-serif; color: #e2e8f0; background:#0f172a; height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px;">
+              <div style="max-width: 520px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; box-shadow: 0 20px 80px rgba(0,0,0,0.35);">
+                <h1 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Не удалось загрузить бандл Vite/React</h1>
+                <p style="margin: 0 0 12px; color: rgba(226,232,240,0.8); font-size: 14px;">Запустите локальный dev server, чтобы собрать и отдать приложение.</p>
+                <pre style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; text-align: left; font-size: 13px; overflow-x: auto;">deno task dev</pre>
+                <p style="margin: 12px 0 0; color: rgba(226,232,240,0.7); font-size: 13px;">После запуска откройте ссылку из терминала (обычно <code>http://localhost:5173</code>).</p>
+              </div>
+            </div>
+          `;
+          console.error('Vite/React bundle could not be loaded. Run the dev server.', err);
+        });
+      }
     </script>
   </body>
 </html>

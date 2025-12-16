@@ -18,3 +18,5 @@ deno task preview
 ```
 
 Once the dev server is running, open your browser at http://localhost:5173.
+
+> Opening `index.html` directly from the file system will not load the bundle. Use `deno task dev` or `deno task preview` so the app is served and transpiled correctly.
