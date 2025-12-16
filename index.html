@@ -32,7 +32,10 @@ deno task preview</pre>
           `;
         }
       } else {
-        import('/src/main.tsx').catch((err) => {
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = './src/main.tsx';
+        script.onerror = (err) => {
           if (!root) return;
           root.innerHTML = `
             <div style="font-family: Inter, system-ui, -apple-system, sans-serif; color: #e2e8f0; background:#0f172a; height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px;">
@@ -45,7 +48,8 @@ deno task preview</pre>
             </div>
           `;
           console.error('Vite/React bundle could not be loaded. Run the dev server.', err);
-        });
+        };
+        document.body.appendChild(script);
       }
     </script>
   </body>
