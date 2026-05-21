@@ -1,0 +1,6 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "sqlite" url = "file:./app.db" }
+model Workspace { id String @id @default(cuid()) name String boards Board[] createdAt DateTime @default(now()) }
+model Board { id String @id @default(cuid()) title String background String? favorite Boolean @default(false) workspaceId String workspace Workspace @relation(fields: [workspaceId], references: [id]) lists List[] createdAt DateTime @default(now()) }
+model List { id String @id @default(cuid()) title String order Int boardId String board Board @relation(fields: [boardId], references: [id]) cards Card[] }
+model Card { id String @id @default(cuid()) title String description String? order Int listId String list List @relation(fields: [listId], references: [id]) }

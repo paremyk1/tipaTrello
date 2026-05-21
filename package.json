@@ -1,0 +1,77 @@
+{
+  "name": "tipa-trello-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:web\" \"npm:dev:electron\"",
+    "dev:web": "next dev -p 3000",
+    "dev:electron": "wait-on tcp:3000 && electron .",
+    "build": "npm run build:web && npm run build:electron",
+    "build:web": "next build",
+    "build:electron": "tsc -p electron/tsconfig.json",
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:push": "prisma db push",
+    "seed": "tsx prisma/seed.ts",
+    "dist": "npm run build && electron-builder"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.2.0",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@prisma/client": "^5.20.0",
+    "clsx": "^2.1.1",
+    "electron-log": "^5.2.0",
+    "framer-motion": "^11.11.11",
+    "lucide-react": "^0.453.0",
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-markdown": "^9.0.1",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.6",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
+    "electron": "^33.0.2",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.47",
+    "prisma": "^5.20.0",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.tipa.trello",
+    "productName": "TipaTrello",
+    "files": [
+      "dist-electron/**/*",
+      ".next/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "prisma/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "target": ["nsis", "portable"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office"
+    }
+  }
+}
